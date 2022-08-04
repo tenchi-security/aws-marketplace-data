@@ -37,11 +37,3 @@ submissions via Twitter DM to [@AlexandreSieira](https://twitter.com/AlexandreSi
 This repo runs a daily Github Action that calls the [EC2 DescribeImages](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html)
 operation and populates [amis.csv](amis.csv) listing AMIs used by AWS Marketplace AMI products. This includes the 
 product codes and snapshot IDs of EBS volumes associated with each one.
-
-This would allow security or ops teams without access to the instance metadata service to make use of
-[product_codes.csv](product_codes.csv):
-* List the EC2 instances in an environment;
-* Find the `imageId` field indicating which AMI was used to launch each one;
-* Query [amis.csv](amis.csv) to check if that AMI AWS Marketplace, and any product codes associated with it;
-* Query the product codes in [product_codes.csv](product_codes.csv) to get a clearer definition of what seller and
-product is involved (since AMI names are often not very descriptive).
