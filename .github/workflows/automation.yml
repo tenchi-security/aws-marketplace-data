@@ -50,6 +50,10 @@ jobs:
           git config --local user.email "noreply@tenchisecurity.com"
           git config --local user.name "github-actions[bot]"
           git pull
+          mv amis.csv amis.orig
+          head -n 1 amis.orig > amis.csv
+          tail -n +2 amis.orig | sort -t "," -k 1,2 -k 6,6 >> amis.csv
+          rm -f amis.orig
           git add ./amis.csv
           git commit -m "Marketplace AMI Automation" || :
 
