@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 
-name: CloudSplaining on AWS Managed Policies
+name: Automated AMI to Product Code Mapping
 
 jobs:
   build:
