@@ -1,0 +1,59 @@
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+
+name: CloudSplaining on AWS Managed Policies
+
+jobs:
+  build:
+    name: CloudSplaining on AWS Managed Policies
+    permissions:
+      id-token: write
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+
+      - name: Use Python 3.9
+        uses: actions/setup-python@v2				# set up environment for python
+        with:
+          python-version: 3.9
+
+      - name: AWS IAM Assume Role
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-duration-seconds: 1200
+          role-session-name: GH-Actions-aws-marketplace-data
+
+      - name: Who Am I?
+        run: aws sts get-caller-identity
+
+      - name: Install python requirements
+        run: |
+          pip3 install --upgrade pip
+          pip3 install --upgrade setuptools wheel
+          pip3 install -r ./requirements.txt
+
+      - name: Running the Marketplace AMI Generation Automation
+        run: python3 ./aws-marketplace-data/main.py
+
+      - name: Commit findings
+        run: |
+          git config --local user.email "noreply@tenchisecurity.com"
+          git config --local user.name "github-actions[bot]"
+          git add ./amis.csv
+          git commit -m "Marketplace AMI Automation" || :
+
+      - name: Push findings
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}

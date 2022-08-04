@@ -6,6 +6,8 @@ using APIs. It was started as part of the research on the 2022 DEF CON Cloud Vil
 presented by [Alexandre Sieira](https://twitter.com/AlexandreSieira), also based on the work of Glaysson Tomaz and 
 Marcelo Lima from Tenchi Security.
 
+## Crowdsourced Mapping of Sellers and Product Codes
+
 Currently the goal is to crowdsource mappings of [AMI product codes](https://docs.aws.amazon.com/marketplace/latest/userguide/ami-getting-started.html) 
 (also referred to as offer IDs) to seller and product information. This can be used to enrich lookups into 
 [EC2 instance identity documents](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-identity-documents.html)
@@ -26,5 +28,20 @@ to your account or organization, so they are safe to share here, *except when th
 Sellers will have this information directly on the AWS Marketplace Management Portal, in case they want to proactively
 submit their own IDs.
 
-Feel free to submit PRs with additional data to the CSV file as required, or send submissions via Twitter DM to 
-[@AlexandreSieira](https://twitter.com/AlexandreSieira) or via e-mail to `asieira (at) tenchisecurity.com`.
+Feel free to submit PRs with additional data to the [product_codes.csv](product_codes.csv) file as required, or send 
+submissions via Twitter DM to [@AlexandreSieira](https://twitter.com/AlexandreSieira) or via e-mail to 
+`asieira (at) tenchisecurity.com`.
+
+## Automated Mapping of AMI IDs and Product Codes
+
+This repo runs a daily Github Action that calls the [EC2 DescribeImages](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html)
+operation and populates [amis.csv](amis.csv) listing AMIs used by AWS Marketplace AMI products. This includes the 
+product codes and snapshot IDs of EBS volumes associated with each one.
+
+This would allow security or ops teams without access to the instance metadata service to make use of
+[product_codes.csv](product_codes.csv):
+* List the EC2 instances in an environment;
+* Find the `imageId` field indicating which AMI was used to launch each one;
+* Query [amis.csv](amis.csv) to check if that AMI AWS Marketplace, and any product codes associated with it;
+* Query the product codes in [product_codes.csv](product_codes.csv) to get a clearer definition of what seller and
+product is involved (since AMI names are often not very descriptive).
