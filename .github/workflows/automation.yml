@@ -49,6 +49,7 @@ jobs:
         run: |
           git config --local user.email "noreply@tenchisecurity.com"
           git config --local user.name "github-actions[bot]"
+          git pull
           git add ./amis.csv
           git commit -m "Marketplace AMI Automation" || :
 
