@@ -20,7 +20,8 @@ The simplest way to obtain this information as a buyer is to look for e-mails se
 ![Sample AWS Marketplace E-mail](sample-email.png)
 
 The fields of interest here are `Seller Name`, `Product Name`, `Product ID` and `Offer ID`. None of these are specific 
-to your account or organization, so they are safe to share here.
+to your account or organization, so they are safe to share here, *except when the offer ID starts with the string 
+`offer-`, in which case it's a private offer that you should not share here*.
 
 Sellers will have this information directly on the AWS Marketplace Management Portal, in case they want to proactively
 submit their own IDs.
