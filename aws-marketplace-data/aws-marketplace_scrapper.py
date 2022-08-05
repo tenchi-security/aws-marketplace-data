@@ -54,16 +54,14 @@ def get_aws_marketplace_data():
                                                         "operation": "SearchListings",
                                                         "path": "/"
                                                     })
-    num_of_queries = 1
-    logger.info(f"Got first {num_of_queries*100} Marketplace products.")
 
     req_data = marketplace_request_with_cookies.json()
     products = []
     for prod in req_data['ListingSummaries']:
         products.append(create_product(prod))
+    logger.info(f"Got first {len(products)} Marketplace products.")
 
     while 'NextToken' in req_data:
-        num_of_queries += 1
         marketplace_request_with_cookies = session.post(QUERY_URL,
                                                         headers={
                                                             "awsmp-csrftoken": meta_value.attr("content")},
@@ -81,10 +79,12 @@ def get_aws_marketplace_data():
                                                             "path": "/"
                                                         })
         req_data = marketplace_request_with_cookies.json()
+        if marketplace_request_with_cookies.status_code != 200:
+            break
         for prod in req_data['ListingSummaries']:
             products.append(create_product(prod))
 
-        logger.info(f"Got more {num_of_queries*100} Marketplace products.")
+        logger.info(f"Got {len(products)} Marketplace products so far.")
 
     logger.info(f"Got {len(products)} products from AWS Marketplace.")
     write_csv(products)
@@ -107,6 +107,7 @@ def create_product(prod):
 
 
 def write_csv(products):
+
     with open("marketplace_products.csv", 'w', newline='') as csvfile:
         csvwriter = writer(csvfile)
         csvwriter.writerow(
