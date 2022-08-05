@@ -119,7 +119,6 @@ def write_csv(products):
             seller_name = product['seller_name']
             seller_id = product['seller_id']
             marketplace_url = product['marketplace_url']
-            logger.info(f"Processing {title}...")
 
             # write row
             csvwriter.writerow(
