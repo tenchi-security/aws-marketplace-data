@@ -28,12 +28,12 @@ to your account or organization, so they are safe to share here, *except when th
 Sellers will have this information directly on the AWS Marketplace Management Portal, in case they want to proactively
 submit their own IDs.
 
-Feel free to submit PRs with additional data to the [product_codes.csv](product_codes.csv) file as required, or send 
+Feel free to submit PRs with additional data to the [contrib/product_codes.csv](contrib/product_codes.csv) file as required, or send 
 submissions via Twitter DM to [@AlexandreSieira](https://twitter.com/AlexandreSieira) or via e-mail to 
 `asieira (at) tenchisecurity.com`.
 
 ## Automated Mapping of AMI IDs and Product Codes
 
 This repo runs a daily Github Action that calls the [EC2 DescribeImages](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html)
-operation and populates [amis.csv](amis.csv) listing AMIs used by AWS Marketplace AMI products. This includes the 
+operation and populates [data/amis.csv](data/amis.csv) listing AMIs used by AWS Marketplace AMI products. This includes the 
 product codes and snapshot IDs of EBS volumes associated with each one.

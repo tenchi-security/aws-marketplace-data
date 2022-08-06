@@ -43,13 +43,20 @@ jobs:
           pip3 install -r ./requirements.txt
 
       - name: Running the Marketplace AMI Generation Automation
-        run: python3 ./aws-marketplace-data/main.py
+        run: |
+          cd data
+          python3 ../aws-marketplace-data/main.py
+          cd ..
 
       - name: Running Marketplace Product Code Scrapper
-        run: python3 ./aws-marketplace-data/aws-marketplace_scrapper.py
+        run: |
+          cd data
+          python3 ../aws-marketplace-data/aws-marketplace_scraper.py
+          cd ..
 
       - name: Commit findings
         run: |
+          cd data
           git config --local user.email "noreply@tenchisecurity.com"
           git config --local user.name "github-actions[bot]"
           git pull
@@ -64,7 +71,8 @@ jobs:
           tail -n +2 marketplace_products.orig | sort -t "," -k 2,2 -k 4,4 >> marketplace_products.csv
           rm -f marketplace_products.orig
           git add ./marketplace_products.csv
-          git commit -m "Marketplace AMI Automation" || :
+          git commit -m "Marketplace Data Automation" || :
+          cd ..
 
       - name: Push findings
         uses: ad-m/github-push-action@master
