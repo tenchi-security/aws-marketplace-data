@@ -81,6 +81,8 @@ def get_aws_marketplace_data():
                                                             "path": "/"
                                                         })
         req_data = marketplace_request_with_cookies.json()
+        if marketplace_request_with_cookies.status_code != 200:
+            break
         for prod in req_data['ListingSummaries']:
             products.append(create_product(prod))
 
