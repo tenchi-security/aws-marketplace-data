@@ -35,5 +35,5 @@ submissions via Twitter DM to [@AlexandreSieira](https://twitter.com/AlexandreSi
 ## Automated Mapping of AMI IDs and Product Codes
 
 This repo runs a daily Github Action that calls the [EC2 DescribeImages](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeImages.html)
-operation and populates [data/amis.csv](data/amis.csv) listing AMIs used by AWS Marketplace AMI products. This includes the 
+operation and populates [data/amis.csv.gz](data/amis.csv.gz) listing AMIs used by AWS Marketplace AMI products. This includes the 
 product codes and snapshot IDs of EBS volumes associated with each one.

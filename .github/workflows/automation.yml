@@ -48,7 +48,7 @@ jobs:
           python3 ../aws-marketplace-data/main.py
           cd ..
 
-      - name: Running Marketplace Product Code Scrapper
+      - name: Running Marketplace Product Code Scraper
         run: |
           cd data
           python3 ../aws-marketplace-data/aws-marketplace_scraper.py
@@ -64,13 +64,15 @@ jobs:
           head -n 1 amis.orig > amis.csv
           tail -n +2 amis.orig | sort -t "," -k 1,2 -k 7,7 >> amis.csv
           rm -f amis.orig
-          git add ./amis.csv
+          gzip amis.csv
+          git add ./amis.csv.gz
 
           mv marketplace_products.csv marketplace_products.orig
           head -n 1 marketplace_products.orig > marketplace_products.csv
           tail -n +2 marketplace_products.orig | sort -t "," -k 2,2 -k 4,4 >> marketplace_products.csv
           rm -f marketplace_products.orig
-          git add ./marketplace_products.csv
+          gzip marketplace_products.csv
+          git add ./marketplace_products.csv.gz
           git commit -m "Marketplace Data Automation" || :
           cd ..
 
